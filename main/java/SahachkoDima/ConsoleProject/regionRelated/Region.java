@@ -3,16 +3,17 @@ package SahachkoDima.ConsoleProject.regionRelated;
 public class Region {
 	private Long id;
 	private String name;
-	static long counter;
 	
 	Region(String name) {
 		this.name = name;
-		counter++;
-		id = new Long(counter);
 	}
 	
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

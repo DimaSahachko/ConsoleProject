@@ -16,6 +16,13 @@ public class RegionRepository {
 	}
 	
 	List<Region> getAll() {
+		if(Files.notExists(regionsStorage)) {
+			try {
+				Files.createFile(regionsStorage);
+			} catch (IOException exc) {
+				exc.printStackTrace();
+			}
+		}
 		List<Region> allRegions = new ArrayList<>();
 		try(Stream<String> stream = Files.lines(regionsStorage)) {
 			stream.forEach(region -> allRegions.add(gson.fromJson(region, Region.class)));
@@ -45,13 +52,32 @@ public class RegionRepository {
 	}
 	
 	Region save(Region region) {
-		if (Files.notExists(regionsStorage)) {
-			try {
+		long nextEmptyId = 0;
+		List<Region> allRegions = new ArrayList<>();
+		try{
+			if (Files.notExists(regionsStorage)) {
 				Files.createFile(regionsStorage);
-			} catch (IOException exc) {
-				exc.printStackTrace();
 			}
-		}	
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+		try(Stream<String> stream = Files.lines(regionsStorage)) {
+			stream.map(line -> gson.fromJson(line, Region.class)).forEach(reg -> allRegions.add(reg));
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+			if(allRegions.size() == 0) {
+				nextEmptyId = 1L;
+			} else {
+				long counter = 0;
+				for(Region reg : allRegions) {
+					if(reg.getId() > counter) {
+						counter = reg.getId();
+						nextEmptyId = counter + 1;
+					}
+				}
+			}
+			region.setId(nextEmptyId);
 			String regionJsonRepresentation = gson.toJson(region);
 		try {
 			Files.write(regionsStorage, (regionJsonRepresentation + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
@@ -77,9 +103,9 @@ public class RegionRepository {
 		} else {
 			try { 
 				Files.delete(regionsStorage);
-				} catch(IOException exc ) {
+			} catch(IOException exc ) {
 				exc.printStackTrace();
-				}
+			}
 			allRegionsAfterUpdating.stream().map(regn -> gson.toJson(regn)).
 				forEach(jsonRegion -> {
 					try{
@@ -107,14 +133,14 @@ public class RegionRepository {
 		} else {
 			try { 
 				Files.delete(regionsStorage);
+				Files.createFile(regionsStorage);
 				} catch(IOException exc ) {
 				exc.printStackTrace();
 				}
 			allRegionsAfterDeleting.stream().map(region -> gson.toJson(region)).
 				forEach(jsonRegion -> {
 					try{
-						Files.write(regionsStorage, (jsonRegion + System.lineSeparator()).getBytes(),
-						StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+						Files.write(regionsStorage, (jsonRegion + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
 					} catch (IOException exc) {
 						exc.printStackTrace();
 					}
