@@ -98,8 +98,7 @@ public class JavaIOPostRepository implements PostRepository {
 			allPostsAfterUpdating.add(currentPost);
 		}
 		if(allPostsBeforeUpdating.equals(allPostsAfterUpdating)) {
-			System.out.println("There is no region with wuch id");
-			return post;
+			return null;
 		} else {
 			try {
 				Files.delete(postsStorage);

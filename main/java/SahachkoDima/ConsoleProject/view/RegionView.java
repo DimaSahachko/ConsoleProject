@@ -49,6 +49,7 @@ public class RegionView {
 			String doMore = sc.nextLine();
 			if(doMore.equalsIgnoreCase("yes")) {
 				startConsole();
+				break;
 			} else {
 				System.out.println("Have a nice day. Good buy.");
 				break;

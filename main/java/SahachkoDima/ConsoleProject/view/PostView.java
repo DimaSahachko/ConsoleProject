@@ -49,6 +49,7 @@ public class PostView {
 			String doMore = sc.nextLine();
 			if(doMore.equalsIgnoreCase("yes")) {
 				startConsole();
+				break;
 			} else {
 				System.out.println("Have a nice day. Good buy");
 				break;
@@ -69,7 +70,12 @@ public class PostView {
 			long id = Long.parseLong(sc.nextLine());
 			System.out.println("Type the new content of the updating post");
 			String content = sc.nextLine();
-			controller.updatePost(id, content);
+			Post post = controller.updatePost(id, content);
+			if(post == null) {
+				System.out.println("There is no region with wuch id");
+			} else {
+				System.out.println(post);
+			}
 		} catch (NumberFormatException exc) {
 			System.out.println("Inappropriate input. Try once again");
 			update();
