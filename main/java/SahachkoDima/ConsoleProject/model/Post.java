@@ -1,5 +1,6 @@
 package SahachkoDima.ConsoleProject.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Post {
@@ -47,12 +48,13 @@ public class Post {
 
 	@Override
 	public String toString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("DD.MM.YYYY 'at' HH:mm:ss");
 		if((created == null) && (updated == null)) {
 			return id + "." + content;	
 		} else if(updated == null) {
-			return id + "." + content + ". (Created: " + created + ")";
+			return id + "." + content + ". (Created: " + dateFormat.format(created) + ")";
 		} else {
-		return  id + "." + content + ". (Created: " + created + ". Updated: " + updated + ")";
+		return  id + "." + content + ". (Created: " + dateFormat.format(created) + ". Updated: " + dateFormat.format(updated) + ")";
 		}
 	}
 

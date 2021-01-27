@@ -36,7 +36,7 @@ public class JavaIOPostRepository implements PostRepository {
 		Post post = null;
 		try(Stream<String> stream = Files.lines(postsStorage)) {
 			Optional<Post> optionalPost = stream.map(line -> gson.fromJson(line, Post.class))
-					.filter(currentPost -> currentPost.getId() == id).findFirst();
+					.filter(currentPost -> currentPost.getId().equals(id)).findFirst();
 			if(optionalPost.isPresent()) {
 				post = optionalPost.get();
 			}

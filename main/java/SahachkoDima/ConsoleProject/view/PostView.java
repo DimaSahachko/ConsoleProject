@@ -7,8 +7,8 @@ import SahachkoDima.ConsoleProject.controller.PostController;
 import SahachkoDima.ConsoleProject.model.Post;
 
 public class PostView {
-	PostController controller;
-	Scanner sc = new Scanner(System.in);
+	private PostController controller;
+	private Scanner sc = new Scanner(System.in);
 	
 	public PostView(PostController controller) {
 		this.controller = controller;
@@ -27,10 +27,10 @@ public class PostView {
 			String input = sc.nextLine();
 			switch(input) {
 			case "add" :
-				add();
+				addPost();
 				break;
 			case "update" :
-				update();
+				updatePost();
 				break;
 			case "all" :
 				allPosts();
@@ -57,14 +57,14 @@ public class PostView {
 		}
 	}
 	
-	private void add() {
+	private void addPost() {
 		System.out.println("Type the post's content");
 		String content = sc.nextLine();
 		Post post = controller.addPost(content);
-		System.out.println("Post " + post + " was added");
+		System.out.println("Post \"" + post + "\" was added");
 	}
 	
-	private void update() {
+	private void updatePost() {
 		System.out.println("Type the id of the post which you want to update");
 		try {
 			long id = Long.parseLong(sc.nextLine());
@@ -78,7 +78,7 @@ public class PostView {
 			}
 		} catch (NumberFormatException exc) {
 			System.out.println("Inappropriate input. Try once again");
-			update();
+			updatePost();
 		}
 	}
 	

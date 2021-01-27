@@ -38,7 +38,7 @@ public class JavaIORegionRepository implements RegionRepository {
 		Region regionById = null;
 		try(Stream<String> stream = Files.lines(regionsStorage)) {
 			Optional<Region> optionalRegion = stream.map(stringRegion -> gson.fromJson(stringRegion, Region.class))
-					.filter(region -> region.getId()==id).findFirst();
+					.filter(region -> region.getId().equals(id)).findFirst();
 			if(optionalRegion.isPresent()) {
 					regionById = optionalRegion.get();
 			}

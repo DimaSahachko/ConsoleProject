@@ -1,13 +1,12 @@
 package SahachkoDima.ConsoleProject.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import SahachkoDima.ConsoleProject.model.Post;
 import SahachkoDima.ConsoleProject.repository.PostRepository;
 
 public class PostController {
-	PostRepository repository;
+	private PostRepository repository;
 	
 	public PostController(PostRepository repository) {
 		this.repository = repository;
